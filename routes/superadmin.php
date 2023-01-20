@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    });
-    // Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'showDashboard']);
-    // Route::get('/settings', [\App\Http\Controllers\AdminController::class, 'showSettings']);
+    Route::get('/', [AdminController::class, 'dashboard']);
+    Route::resource('category', CategoryController::class);
+

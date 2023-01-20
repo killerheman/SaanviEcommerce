@@ -44,6 +44,7 @@
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     @include('admin.includes.foot')
     <!-- END GLOBAL MANDATORY SCRIPTS -->
+    @include('sweetalert::alert')
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
     @yield('script')

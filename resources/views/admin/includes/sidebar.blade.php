@@ -6,11 +6,11 @@
             <div class="nav-logo">
                 <div class="nav-item theme-logo">
                     <a href="index.html">
-                        <img src="../../src/assets/img/logo.svg" class="navbar-logo" alt="logo">
+                        <img src="../../src/assets/img/logo.svg" class="navbar-logo" alt="Saanvi Ecommerce">
                     </a>
                 </div>
                 <div class="nav-item theme-text">
-                    <a href="index.html" class="nav-link"> CORK </a>
+                    <a href="index.html" class="nav-link"> Saanvi Ecommerce </a>
                 </div>
             </div>
             <div class="nav-item sidebar-toggle">
@@ -28,7 +28,7 @@
         <ul class="list-unstyled menu-categories" id="accordionExample">
 
             <li class="menu">
-                <a href="empty-page.html" aria-expanded="false" class="dropdown-toggle">
+                <a href="{{url('superadmin/')}}" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -37,7 +37,7 @@
                                 d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18">
                             </path>
                         </svg>
-                        <span>Empty Page</span>
+                        <span>Dashboard</span>
                     </div>
                 </a>
             </li>
@@ -94,7 +94,7 @@
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg><span>MENU LEVELS</span></div>
+                    </svg><span>Products</span></div>
             </li>
 
             <li class="menu">
@@ -108,7 +108,7 @@
                             <line x1="10" y1="3" x2="8" y2="21"></line>
                             <line x1="16" y1="3" x2="14" y2="21"></line>
                         </svg>
-                        <span>Level 1</span>
+                        <span>Products</span>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -121,13 +121,22 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="home" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="javascript:void(0);"> Level 2a </a>
+                        <a href="javascript:void(0);"> All Products </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0);"> Level 2b </a>
+                        <a href="javascript:void(0);"> Add New </a>
+                    </li>
+                    <li>
+                        <a href="{{url('superadmin/category')}}"> Categories </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);"> Tags </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);"> Attributes </a>
                     </li>
 
-                    <li>
+                    {{-- <li>
                         <a href="#level-three" data-bs-toggle="collapse" aria-expanded="false"
                             class="dropdown-toggle collapsed"> Level 2c <svg
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -148,7 +157,7 @@
                                 <a href="javascript:void(0);"> Level 3c </a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
 
