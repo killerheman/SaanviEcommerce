@@ -18,4 +18,6 @@ use App\Http\Controllers\admin\AdminController;
 
     Route::get('/', [AdminController::class, 'dashboard']);
     Route::resource('category', CategoryController::class);
+    // Route::get('category/{id}', CategoryController::class, 'delete')->name('category.delete');
+    // Route::delete('cities/{id}', [App\Http\Controllers\CityController::class, 'delete'])->name('cities.delete');
 

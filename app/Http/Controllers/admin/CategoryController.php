@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {
@@ -16,7 +18,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.category');
+        $save_res   =   Category::get();
+        $categories = Category::where('parent_cat_id', null)->orderby('category_name', 'asc')->get();
+        return view('admin.category',compact('save_res','categories'));
     }
 
     /**
@@ -37,25 +41,49 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'category_name'=>'required',
-            'category_slug'=>'required',
+            'category_slug'=>'required|unique:categories',
             'category_desc'=>'required',
+            'parent_cat_id' => 'nullable|numeric',
             'category_img.*' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
+        
+
         if($request->hasFile('category_img')){
             $name='catimg-'.rand(0,9).time().'.'.$request->category_img->extension();
             $request->category_img->storeAs('public/categoryfile',$name);
-            $path='public/categoryfile/'.$name;
+            $path='categoryfile/'.$name;
         }
-        Category::create([
+        $save_res   =   Category::create([
         'category_name'=>$request->category_name,
         'category_slug'=>$request->category_slug,
         'category_desc'=>$request->category_desc,
-        'parent_category'=>$request->parent_category??'null',
-        'category_img'=>$path??'null',
+        'parent_cat_id'=>$request->parent_cat_id??null,
+        'category_img'=>$path??'',
         ]);
-       return redirect()->back()->with('success','Category created Successfully !');
+
+        if($save_res){
+            toast('Product Category Successfully Added!','success');
+            Alert::success('Success Title', 'Success Message');
+            // return response()->json( 
+            //     [
+            //         'msg'=>'Product Category Successfully Added',
+            //         'status'=>1
+            //     ]
+            // );
+        }else{
+            toast('Product Category not saved!','Error');
+            // return response()->json( 
+            //     [
+            //         'msg'=>'Error :Product Category not saved',
+            //         'status'=>0
+            //     ]
+            // );
+        }
+        Alert::success('Success Title', 'Success Message');
+       return redirect()->back();
     }
 
     /**
@@ -100,6 +128,14 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+       $data = Category::find($id)->delete();
+       if($data){
+            // Category::find($id)->where('parent_cat_id', '=',$id )->delete();
+            toast('Product Category Deleted!','Error');     
+       }else{
+            toast('Product Category not Deleted!','Error');
+       }
+       Alert::success('Success Title', 'Somthing Went Wrong!');
+       return back()->with('success');
     }
 }
