@@ -129,11 +129,6 @@
                                     <td>{{$item->category_desc??''}}</td>
                                     <td class="d-flex">
                                         <button type="button" class="btn btn-success">Edit</button>
-                                        <form method="post" action="{{route('category.destroy',$item->id)}}">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                        </form>
                                         <form action="{{route('category.destroy',$item->id)}}" onsubmit="return confirm('Are you sure?');" method="POST">
                                             @csrf
                                             @method('DELETE')

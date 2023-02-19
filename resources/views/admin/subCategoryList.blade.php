@@ -15,7 +15,12 @@
             <td> {{$subcategory->category_desc??''}}</td>
             <td>
                 <button type="button" class="btn btn-success">Edit</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <!-- <button type="button" class="btn btn-danger">Delete</button> -->
+                <form action="{{route('category.destroy',$subcategory->id)}}" onsubmit="return confirm('Are you sure?');" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-warning" type="submit">Delete</button>
+                </form>
             </td>
 	    @if(count($subcategory->subcategory))
             @include('admin/subCategoryList',['subcategories' => $subcategory->subcategory])
