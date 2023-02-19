@@ -134,6 +134,11 @@
                                             @csrf
                                             <button type="button" class="btn btn-danger">Delete</button>
                                         </form>
+                                        <form action="{{route('category.destroy',$item->id)}}" onsubmit="return confirm('Are you sure?');" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-warning" type="submit">Delete</button>
+                                        </form>
 
                                     </td>
                                 </tr>
