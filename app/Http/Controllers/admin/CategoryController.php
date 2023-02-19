@@ -131,7 +131,8 @@ class CategoryController extends Controller
        $data = Category::find($id)->delete();
        if($data){
             // Category::find($id)->where('parent_cat_id', '=',$id )->delete();
-            toast('Product Category Deleted!','Error');     
+            toast('Product Category Deleted!','Success'); 
+            Alert::success('Success Title', 'Success Message');    
        }else{
             toast('Product Category not Deleted!','Error');
        }

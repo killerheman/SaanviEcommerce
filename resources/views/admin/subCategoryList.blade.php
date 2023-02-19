@@ -13,7 +13,7 @@
             <td>{{$item->category_name}}</td>
             <td>{{$subcategory->category_slug??''}}</td>
             <td> {{$subcategory->category_desc??''}}</td>
-            <td>
+            <td class="d-flex">
                 <button type="button" class="btn btn-success">Edit</button>
                 <!-- <button type="button" class="btn btn-danger">Delete</button> -->
                 <form action="{{route('category.destroy',$subcategory->id)}}" onsubmit="return confirm('Are you sure?');" method="POST">
