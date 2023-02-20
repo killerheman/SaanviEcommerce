@@ -65,8 +65,7 @@ class CategoryController extends Controller
         ]);
 
         if($save_res){
-            toast('Product Category Successfully Added!','success');
-            Alert::success('Success Title', 'Success Message');
+            return redirect()->back()->with('toast_success', 'Product Category Successfully Added!');
             // return response()->json( 
             //     [
             //         'msg'=>'Product Category Successfully Added',
@@ -74,16 +73,8 @@ class CategoryController extends Controller
             //     ]
             // );
         }else{
-            toast('Product Category not saved!','Error');
-            // return response()->json( 
-            //     [
-            //         'msg'=>'Error :Product Category not saved',
-            //         'status'=>0
-            //     ]
-            // );
+            return redirect()->back()->with('toast_error', 'Product Category not saved');
         }
-        Alert::success('Success Title', 'Success Message');
-       return redirect()->back();
     }
 
     /**
@@ -129,14 +120,10 @@ class CategoryController extends Controller
     public function destroy($id)
     {
        $data = Category::find($id)->delete();
-       if($data){
-            // Category::find($id)->where('parent_cat_id', '=',$id )->delete();
-            toast('Product Category Deleted!','Success'); 
-            Alert::success('Success Title', 'Success Message');    
+       if($data){  
+            return redirect()->back()->with('toast_success', 'Category deleted');  
        }else{
-            toast('Product Category not Deleted!','Error');
+            return redirect()->back()->with('toast_error', 'Category not deleted');  
        }
-       Alert::success('Success Title', 'Somthing Went Wrong!');
-       return back()->with('success');
     }
 }
