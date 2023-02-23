@@ -21,22 +21,25 @@
                     <div class="widget-header">                                
                         <div class="row">
                             <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                <h4>Category Form</h4>
+                                <h4>{{isset($category_data)?'Category Update Form':'Category Form'}}</h4>
                             </div>                                                                        
                         </div>
                     </div>
                     <div class="widget-content widget-content-area">
-                        <form action="{{route('category.store')}}" method="post" enctype="multipart/form-data">
+                        <form action="{{isset($category_data)?route('category.update', $category_data->id):route('category.store')}}" method="post" enctype="multipart/form-data">
                             @csrf
+                            @isset($category_data)
+                                @method('PUT')
+                            @endisset
                             <div class="row mt-3">
                                     <div class="col-md-4">
                                     <label for="category_name" class="col-md-4 col-form-label">Name</label>
-                                    <input type="text" name='category_name' class="form-control" id="category_name" value="{{old('category_name')}}">
+                                    <input type="text" name='category_name' class="form-control" id="category_name" value="{{isset($category_data->category_name)?$category_data->category_name:''}}">
                                     </div>
 
                                     <div class="col-md-4">
                                     <label for="category_slug" class="col-md-4 col-form-label">Slug</label>
-                                        <input type="text" name='category_slug' class="form-control" id="category_slug">
+                                        <input type="text" name='category_slug' class="form-control" id="category_slug" value="{{isset($category_data->category_slug)?$category_data->category_slug:''}}">
                                     </div>
                                     <div class="col-md-4">
                                         <label for="parent_cat_id" class="col-form-label">Parent Category</label>
@@ -45,7 +48,7 @@
                                             @if($categories)
                                                 @foreach($categories as $category)
                                                     <?php $dash=''; ?>
-                                                    <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                                    <option value="{{$category->id}}" {{isset($category_data->id)?($category_data->id==$category->id?"selected":''):''}}>{{$category->category_name}}</option>
                                                     @if(count($category->subcategory))
                                                         @include('admin/subcategoryList_option',['subcategories' => $category->subcategory])
                                                     @endif
@@ -58,7 +61,7 @@
                             <div class="row mt-3">
                                 <div class="col-md-4">
                                     <label for="category_desc" class="col-sm-2 col-form-label">Description</label>
-                                    <textarea name='category_desc' class="form-control" id="category_desc"></textarea>
+                                    <textarea name='category_desc' class="form-control" id="category_desc">{{isset($category_data->category_desc)?$category_data->category_desc:''}}</textarea>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="category_img" class="col-form-label">Category Image</label>
@@ -67,7 +70,7 @@
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-4">
-                                    <button type="submit" id="save_category" class="btn btn-primary">Add New Category</button>
+                                    <button type="submit" id="save_category" class="btn btn-primary">{{isset($category_data)?'Update Category':'Add New Category'}}</button>
                                 </div>
                             </div>
                         </form>
@@ -117,9 +120,9 @@
                                     <td>
                                         <div class="d-flex">                                                        
                                             <div class="usr-img-frame me-2 rounded-circle">
-                                                <img alt="avatar" class="img-fluid rounded-circle" src="{{ storage_path('app/public/'.$item->category_img ) }}">
+                                                <img alt="avatar" class="img-fluid rounded-circle" src="{{ asset('storage'.$item->category_img ) }}">
                                             </div>
-                                            {{-- <p class="align-self-center mb-0 admin-name"> Tiger </p> --}}
+
                                         </div>
                                     </td>
                         
@@ -128,7 +131,7 @@
                                     <td>{{$item->category_slug??''}}</td>
                                     <td>{{$item->category_desc??''}}</td>
                                     <td class="d-flex">
-                                        <button type="button" class="btn btn-success">Edit</button>
+                                        <a href="{{route('category.edit',$item->id)}}" class="btn btn-success">Edit</a>
                                         <form action="{{route('category.destroy',$item->id)}}" onsubmit="return confirm('Are you sure?');" method="POST">
                                             @csrf
                                             @method('DELETE')

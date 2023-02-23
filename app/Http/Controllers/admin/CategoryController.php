@@ -53,7 +53,7 @@ class CategoryController extends Controller
 
         if($request->hasFile('category_img')){
             $name='catimg-'.rand(0,9).time().'.'.$request->category_img->extension();
-            $request->category_img->storeAs('public/categoryfile',$name);
+            $request->category_img->storeAs('categoryfile',$name,'public');
             $path='categoryfile/'.$name;
         }
         $save_res   =   Category::create([
@@ -96,7 +96,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category_data  =   Category::find($id);
+        $categories = Category::where('parent_cat_id', null)->orderby('category_name', 'asc')->get();
+        return view('admin.category',compact('category_data','categories'));
     }
 
     /**
@@ -108,7 +110,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($id);
     }
 
     /**
