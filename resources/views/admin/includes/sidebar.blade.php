@@ -124,7 +124,7 @@
                         <a href="javascript:void(0);"> All Products </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0);"> Add New </a>
+                        <a href="{{url('superadmin/product')}}"> Add New </a>
                     </li>
                     <li>
                         <a href="{{url('superadmin/category')}}"> Categories </a>
