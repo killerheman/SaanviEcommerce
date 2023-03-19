@@ -35,8 +35,15 @@
                                         <label for="product_name">Product Category</label>
                                         <div class="form-group">
                                             <select id="selectto" class="form-select" data-placeholder="Select a Category" aria-label="Default select example" name="category[]" multiple="multiple">
-                                                <option value="AL">Alabama</option>
-                                                <option value="WY">Wyoming</option>
+                                                @isset($cate_res)
+                                                @foreach($cate_res as $category)
+                                                <?php $dash = ''; ?>
+                                                <option value="{{$category->id}}" {{isset($category_data->id)?($category_data->id==$category->id?"selected":''):''}}>{{$category->category_name}}</option>
+                                                @if(count($category->subcategory))
+                                                @include('admin/subcategoryList_option',['subcategories' => $category->subcategory])
+                                                @endif
+                                                @endforeach
+                                                @endisset
                                             </select>
                                         </div>
                                     </div>
@@ -65,11 +72,10 @@
                                     <div class="col-md-6 ">
                                         <label for="product_status">Product Status</label>
                                         <div class="form-group">
-                                        <select class="selectProductStatus" class="form-select" name="status[]">
-                                            <option value="AL">Alabama</option>
-                                                
-                                            <option value="WY">Wyoming</option>
-                                        </select>
+                                            <select class="selectProductStatus" name="status[]">
+                                                <option value="AL">Alabama</option>  
+                                                <option value="WY">Wyoming</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6 ">
