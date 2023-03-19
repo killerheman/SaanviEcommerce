@@ -73,9 +73,8 @@
                                         <label for="product_status">Product Status</label>
                                         <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example">
                                             <option selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inacctive</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 ">
@@ -91,7 +90,11 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="product_attributes">Attributes</label>
-                                            <input id="product_attributes" type="text" name="product_attributes" placeholder="Product Attributes" class="form-control">
+                                            <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example">
+                                                <option selected>Select attribute</option>
+                                                <option value="color">Color</option>
+                                                <option value="size">Size</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
