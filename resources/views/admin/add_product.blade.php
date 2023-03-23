@@ -86,7 +86,7 @@
 
                                     </div>
                                 </div>
-                                <div class="row mt-3">
+                                <div class="row mt-3" id="attribute">
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="product_attributes">Attributes</label>
@@ -124,7 +124,7 @@
                                     </div>
                                     <div class="col-md-2 pt-3">
                                         <div class="form-group mt-3">
-                                            <input type="button" value="+" class="add_more btn btn-primary" id="add">
+                                            <input type="button" value="+" class="add_more btn btn-primary" id="addattri">
                                         </div>
                                     </div>
                                 </div>
@@ -156,13 +156,33 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Denotes total number of rows
+        var rowIdx = 1;
+        
         $('#selectto').select2({
             allowClear: true,
         });
 
         //select 2 for Rpoduct status
         $('.selectProductStatus').select2();
+
+
+        //adding new row
+            // jQuery button click event to add a row
+      $('#addattri').on('click', function () {
+  
+        // Adding a row inside the tbody.
+        $(`<div class="row mt-3" id="attribute"> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Attributes</label> <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example"> <option selected>Select attribute</option> <option value="color">Color</option> <option value="size">Size</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_color">Color</label> <input id="product_color" type="color" name="product_color" placeholder="Product color" class="form-control" style="height:50px;"> <input id="product_size" type="hidden" name="product_size" placeholder="Product Size" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Price</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">MRP</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">QTY</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2 pt-3"> <div class="form-group mt-3"> <input type="button" value="Remove" class="btn btn-danger" onclick="removefun()" id="remove"> </div> </div> </div>`).insertAfter("#attribute");
+        rowIdx++;
+        });
+
     });
+
+    //removing attribute
+        function removefun(){
+            // alert('hii');
+            $('#remove').closest('.row').remove();
+        }
     // CK editor code 
     CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
         toolbar: {
