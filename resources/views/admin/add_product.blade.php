@@ -77,13 +77,15 @@
                                             <option value="inactive">Inacctive</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6 ">
-                                        <label for="product_tags">Tags</label>
-                                        <div class="form-group d-flex">
-                                            <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control">
-                                            <input type="button" value="+" class="add_more btn btn-primary" id="add">
+                                    <div class="col-md-6">
+                                        <div class="row col-md-12" id="tags">
+                                            <label for="product_tags">Tags</label>
+                                            <div class="form-group d-flex">
+                                                <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control">
+                                                <input type="button" value="+" class="btn btn-primary" id="add_tags">
+                                            </div>
                                         </div>
-
+        
                                     </div>
                                 </div>
                                 <div class="row mt-3" id="attribute">
@@ -167,22 +169,34 @@
         $('.selectProductStatus').select2();
 
 
-        //adding new row
-            // jQuery button click event to add a row
+        // jQuery button click event to add a row attribute
       $('#addattri').on('click', function () {
   
         // Adding a row inside the tbody.
-        $(`<div class="row mt-3" id="attribute"> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Attributes</label> <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example"> <option selected>Select attribute</option> <option value="color">Color</option> <option value="size">Size</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_color">Color</label> <input id="product_color" type="color" name="product_color" placeholder="Product color" class="form-control" style="height:50px;"> <input id="product_size" type="hidden" name="product_size" placeholder="Product Size" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Price</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">MRP</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">QTY</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2 pt-3"> <div class="form-group mt-3"> <input type="button" value="Remove" class="btn btn-danger" onclick="removefun()" id="remove"> </div> </div> </div>`).insertAfter("#attribute");
+        $(`<div class="row mt-3" id="attribute"> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Attributes</label> <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example"> <option selected>Select attribute</option> <option value="color">Color</option> <option value="size">Size</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_color">Color</label> <input id="product_color" type="color" name="product_color" placeholder="Product color" class="form-control" style="height:50px;"> <input id="product_size" type="hidden" name="product_size" placeholder="Product Size" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Price</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">MRP</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">QTY</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2 pt-3"> <div class="form-group mt-3"> <input type="button" value="❌" class="btn btn-danger" onclick="removefun()" id="remove"> </div> </div> </div>`).insertAfter("#attribute");
         rowIdx++;
+        });
+
+         // jQuery button click event to add a row attribute
+      $('#add_tags').on('click', function () {
+        // Adding a row inside the tbody.
+        $(`<div class="row col-md-12 mt-2" id="tags"> <div class="form-group d-flex"> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> <input type="button" value="❌" class="btn btn-danger" onclick="removetags()" id="remove"> </div> </div>`).insertAfter("#tags");
+    
         });
 
     });
 
-    //removing attribute
+        //removing attribute
         function removefun(){
             // alert('hii');
             $('#remove').closest('.row').remove();
         }
+        //removing Tags
+        function removetags(){
+            $('#remove').closest('#tags').remove();
+        }
+
+    
     // CK editor code 
     CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
         toolbar: {
