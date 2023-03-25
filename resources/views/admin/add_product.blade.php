@@ -2,6 +2,11 @@
 @section('title','Product Form')
 @section('style')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+.ck-editor__editable_inline {
+    min-height: 200px;
+}
+</style>
 @endsection
 @section('main')
 <!--  BEGIN CONTENT AREA  -->
@@ -29,7 +34,8 @@
                             </div>
                         </div>
                         <div class="widget-content widget-content-area">
-                            <form method="post">
+                            <form method="post" action="" enctype="multipart/form-data">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6 ">
                                         <label for="product_name">Product Category</label>
@@ -72,7 +78,7 @@
                                     <div class="col-md-6 ">
                                         <label for="product_status">Product Status</label>
                                         <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example">
-                                            <option selected>Open this select menu</option>
+                                            <option selected>Select Product Status</option>
                                             <option value="active">Active</option>
                                             <option value="inactive">Inacctive</option>
                                         </select>
@@ -92,36 +98,34 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="product_attributes">Attributes</label>
-                                            <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example">
-                                                <option selected>Select attribute</option>
-                                                <option value="color">Color</option>
+                                            <select class="form-select form-select-md mb-3" name="attribute_name" aria-label=".form-select-lg example" id="attribute_name">
+                                                <option value="color" selected>Color</option>
                                                 <option value="size">Size</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        <div class="form-group">
+                                        <div class="form-group" id="attr_size_color">
                                             <label for="product_color">Color</label>
                                             <input id="product_color" type="color" name="product_color" placeholder="Product color" class="form-control" style="height:50px;">
-                                            <input id="product_size" type="hidden" name="product_size" placeholder="Product Size" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="product_attributes">Price</label>
-                                            <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control">
+                                            <label for="product_price">Price</label>
+                                            <input id="product_price" type="text" name="product_price" placeholder="Product Price" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="product_attributes">MRP</label>
-                                            <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control">
+                                            <label for="product_mrp">MRP</label>
+                                            <input id="product_mrp" type="text" name="product_mrp" placeholder="Product MRP" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="product_attributes">QTY</label>
-                                            <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control">
+                                            <label for="product_qty">QTY</label>
+                                            <input id="product_qty" type="text" name="product_qty" placeholder="Product QTY" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-2 pt-3">
@@ -159,7 +163,20 @@
 <script>
     $(document).ready(function() {
         // Denotes total number of rows
-        var rowIdx = 1;
+        // var rowIdx = 1;
+        /**Onchange attribute color sizze */
+        $("#attribute_name").change(function(){
+            var attr_val = $(this).val();
+            // alert(attr_color);
+            // alert(attr_size);
+            if(attr_val == "size"){
+                $("#attr_size_color").html('<label for="attribute_size">Select Size</label><select class="form-select form-select-md" name="attribute_size" aria-label=".form-select-lg example" id="attribute_size"> <option selected>Select attribute</option> <option value="small">Small</option> <option value="medium">Medium</option> </select>');
+            }else if(attr_val == "color"){
+                $("#attr_size_color").html('<label for="product_color">Color</label> <input id="product_color" type="color" name="product_color" placeholder="Product color" class="form-control" style="height:50px;">');
+            }
+
+
+        });
         
         $('#selectto').select2({
             allowClear: true,
@@ -174,7 +191,7 @@
   
         // Adding a row inside the tbody.
         $(`<div class="row mt-3" id="attribute"> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Attributes</label> <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example"> <option selected>Select attribute</option> <option value="color">Color</option> <option value="size">Size</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_color">Color</label> <input id="product_color" type="color" name="product_color" placeholder="Product color" class="form-control" style="height:50px;"> <input id="product_size" type="hidden" name="product_size" placeholder="Product Size" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Price</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">MRP</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">QTY</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2 pt-3"> <div class="form-group mt-3"> <input type="button" value="❌" class="btn btn-danger" onclick="removefun()" id="remove"> </div> </div> </div>`).insertAfter("#attribute");
-        rowIdx++;
+        // rowIdx++;
         });
 
          // jQuery button click event to add a row attribute
@@ -271,6 +288,7 @@
         },
 
         placeholder: 'product description',
+      
         fontFamily: {
             options: [
                 'default',
@@ -359,6 +377,7 @@
             // from a local file system (file://) - load this site via HTTP server if you enable MathType
             'MathType'
         ]
+        
     });
 </script>
 @endsection
