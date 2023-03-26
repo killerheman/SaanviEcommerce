@@ -3,9 +3,9 @@
 @section('style')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
-.ck-editor__editable_inline {
-    min-height: 200px;
-}
+    .ck-editor__editable_inline {
+        min-height: 200px;
+    }
 </style>
 @endsection
 @section('main')
@@ -34,13 +34,13 @@
                             </div>
                         </div>
                         <div class="widget-content widget-content-area">
-                            <form method="post" action="" enctype="multipart/form-data">
+                            <form method="post" action="{{route('product.store')}}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6 ">
+                                    <div class="col-md-6">
                                         <label for="product_name">Product Category</label>
                                         <div class="form-group">
-                                            <select id="selectto" class="form-select" data-placeholder="Select a Category" aria-label="Default select example" name="category[]" multiple="multiple">
+                                            <select id="selectto" class="form-select" data-placeholder="Select a Category" aria-label="Default select example" name="category_id">
                                                 @isset($cate_res)
                                                 @foreach($cate_res as $category)
                                                 <?php $dash = ''; ?>
@@ -69,8 +69,8 @@
                                     </div>
                                     <div class="col-md-6 ">
                                         <div class="form-group">
-                                            <label for="product_image">Gallery Image</label>
-                                            <input id="product_image" type="file" name="gallery_image[]" multiple placeholder="Product image" class="form-control">
+                                            <label for="gallery_image">Gallery Image</label>
+                                            <input id="gallery_image" type="file" name="gallery_image[]" multiple placeholder="Product image" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -85,20 +85,33 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="row col-md-12" id="tags">
-                                            <label for="product_tags">Tags</label>
-                                            <div class="form-group d-flex">
-                                                <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control">
+                                            <div class="form-group col-md-3">
+                                                <label for="tag_name">tag Name</label>
+                                                <select class="form-select form-select-md" aria-label=".form-select-lg example" name="tag_name[]">
+                                                    <option value="tag">tag</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="product_color">Tag color</label>
+                                                <input id="product_color" type="color" name="product_color[]" placeholder="Product Color" class="form-control" style="height:50px;">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="text_color">Text color</label>
+                                                <input id="text_color" type="color" name="text_color[]" placeholder="Text Color" class="form-control" style="height:50px;">
+                                            </div>
+                                            <div class="form-group col-md-3 pt-4 mt-2">
                                                 <input type="button" value="+" class="btn btn-primary" id="add_tags">
                                             </div>
+
                                         </div>
-        
+
                                     </div>
                                 </div>
                                 <div class="row mt-3" id="attribute">
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="product_attributes">Attributes</label>
-                                            <select class="form-select form-select-md mb-3" name="attribute_name" aria-label=".form-select-lg example" id="attribute_name">
+                                            <select class="form-select form-select-md mb-3" name="attribute_name[]" aria-label=".form-select-lg example" id="attribute_name">
                                                 <option value="color" selected>Color</option>
                                                 <option value="size">Size</option>
                                             </select>
@@ -107,28 +120,43 @@
                                     <div class="col-md-2">
                                         <div class="form-group" id="attr_size_color">
                                             <label for="product_color">Color</label>
-                                            <input id="product_color" type="color" name="product_color" placeholder="Product color" class="form-control" style="height:50px;">
+                                            <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="product_price">Price</label>
-                                            <input id="product_price" type="text" name="product_price" placeholder="Product Price" class="form-control">
+                                            <input id="product_price" type="text" name="product_price[]" placeholder="Product Price" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="product_mrp">MRP</label>
-                                            <input id="product_mrp" type="text" name="product_mrp" placeholder="Product MRP" class="form-control">
+                                            <input id="product_mrp" type="text" name="product_mrp[]" placeholder="Product MRP" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="product_qty">QTY</label>
-                                            <input id="product_qty" type="text" name="product_qty" placeholder="Product QTY" class="form-control">
+                                            <input id="product_qty" type="text" name="product_qty[]" placeholder="Product QTY" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-2 pt-3">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="product_disc_type">Discount Type</label>
+                                            <select class="form-select form-select-md mb-3" name="product_disc_type[]" aria-label=".form-select-lg example" id="product_disc_type">
+                                                <option value="percentage" selected>Percentage</option>
+                                                <option value="flat">Flat</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="product_disc_val">Discount Value</label>
+                                            <input id="product_disc_val" type="text" name="product_disc_val[]" placeholder="Discount Value" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 pt-3">
                                         <div class="form-group mt-3">
                                             <input type="button" value="+" class="add_more btn btn-primary" id="addattri">
                                         </div>
@@ -137,10 +165,10 @@
                                 <div class="row mt-3">
                                     <div class="col-md-12">
                                         <label for="editor" class="col-sm-2 col-form-label">Description</label>
-                                        <textarea name='category_desc' class="form-control" id="editor"></textarea>
+                                        <textarea name='product_desc' class="form-control" id="editor"></textarea>
                                     </div>
                                 </div>
-                                <input type="submit" name="txt" class="mt-4 btn btn-primary">
+                                <input type="submit" class="mt-4 btn btn-primary">
                             </form>
                         </div>
                     </div>
@@ -165,19 +193,19 @@
         // Denotes total number of rows
         // var rowIdx = 1;
         /**Onchange attribute color sizze */
-        $("#attribute_name").change(function(){
+        $("#attribute_name").change(function() {
             var attr_val = $(this).val();
             // alert(attr_color);
-            // alert(attr_size);
-            if(attr_val == "size"){
-                $("#attr_size_color").html('<label for="attribute_size">Select Size</label><select class="form-select form-select-md" name="attribute_size" aria-label=".form-select-lg example" id="attribute_size"> <option selected>Select attribute</option> <option value="small">Small</option> <option value="medium">Medium</option> </select>');
-            }else if(attr_val == "color"){
-                $("#attr_size_color").html('<label for="product_color">Color</label> <input id="product_color" type="color" name="product_color" placeholder="Product color" class="form-control" style="height:50px;">');
+            alert(attr_val);
+            if (attr_val == "size") {
+                $("#attr_size_color").html('<label for="attribute_size">Select Size</label><select class="form-select form-select-md" name="attribute_size[]" aria-label=".form-select-lg example" id="attribute_size"> <option selected>Select attribute</option> <option value="small">Small</option> <option value="medium">Medium</option> </select>');
+            } else if (attr_val == "color") {
+                $("#attr_size_color").html('<label for="product_color">Color</label> <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;">');
             }
 
 
         });
-        
+
         $('#selectto').select2({
             allowClear: true,
         });
@@ -187,33 +215,33 @@
 
 
         // jQuery button click event to add a row attribute
-      $('#addattri').on('click', function () {
-  
-        // Adding a row inside the tbody.
-        $(`<div class="row mt-3" id="attribute"> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Attributes</label> <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example"> <option selected>Select attribute</option> <option value="color">Color</option> <option value="size">Size</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_color">Color</label> <input id="product_color" type="color" name="product_color" placeholder="Product color" class="form-control" style="height:50px;"> <input id="product_size" type="hidden" name="product_size" placeholder="Product Size" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Price</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">MRP</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">QTY</label> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> </div> </div> <div class="col-md-2 pt-3"> <div class="form-group mt-3"> <input type="button" value="❌" class="btn btn-danger" onclick="removefun()" id="remove"> </div> </div> </div>`).insertAfter("#attribute");
-        // rowIdx++;
+        $('#addattri').on('click', function() {
+
+            // Adding a row inside the tbody.
+            $(`<div class="row mt-3" id="attribute"> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Attributes</label> <select class="form-select form-select-md mb-3" name="attribute_name[]" aria-label=".form-select-lg example" id="attribute_name"> <option value="color" selected>Color</option> <option value="size">Size</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group" id="attr_size_color"> <label for="product_color">Color</label> <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_price">Price</label> <input id="product_price" type="text" name="product_price[]" placeholder="Product Price" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_mrp">MRP</label> <input id="product_mrp" type="text" name="product_mrp[]" placeholder="Product MRP" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_qty">QTY</label> <input id="product_qty" type="text" name="product_qty[]" placeholder="Product QTY" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_disc_type">Discount Type</label> <select class="form-select form-select-md mb-3" name="product_disc_type[]" aria-label=".form-select-lg example" id="product_disc_type"> <option value="percentage" selected>Percentage</option> <option value="flat">Flat</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_disc_val">Discount Value</label> <input id="product_disc_val" type="text" name="product_disc_val[]" placeholder="Discount Value" class="form-control"> </div> </div><div class="col-md-2 pt-3"> <div class="form-group mt-3"> <input type="button" value="❌" class="btn btn-danger" onclick="removefun()" id="remove"> </div> </div> </div>`).insertAfter("#attribute");
+            // rowIdx++;
         });
 
-         // jQuery button click event to add a row attribute
-      $('#add_tags').on('click', function () {
-        // Adding a row inside the tbody.
-        $(`<div class="row col-md-12 mt-2" id="tags"> <div class="form-group d-flex"> <input id="product_tags" type="text" name="product_tags" placeholder="Product Tags" class="form-control"> <input type="button" value="❌" class="btn btn-danger" onclick="removetags()" id="remove"> </div> </div>`).insertAfter("#tags");
-    
+        // jQuery button click event to add a row attribute
+        $('#add_tags').on('click', function() {
+            // Adding a row inside the tbody.
+            $(`<div class="row col-md-12 mt-2" id="tags"> <div class="form-group col-md-3"> <label for="product_name">Tag Name</label> <input id="product_name" type="text" name="product_name[]" placeholder="Product Name" class="form-control"> </div> <div class="form-group col-md-3"> <label for="product_color">Tag color</label> <input id="product_color" type="text" name="product_color[]" placeholder="Product Color" class="form-control"> </div> <div class="form-group col-md-3"> <label for="text_color">Text color</label> <input id="text_color" type="text" name="text_color[]" placeholder="Text Color" class="form-control"> </div> <div class="form-group col-md-3 pt-4 mt-2"><input type="button" value="❌" class="btn btn-danger" onclick="removetags()" id="remove"> </div> </div>`).insertAfter("#tags");
+
         });
 
     });
 
-        //removing attribute
-        function removefun(){
-            // alert('hii');
-            $('#remove').closest('.row').remove();
-        }
-        //removing Tags
-        function removetags(){
-            $('#remove').closest('#tags').remove();
-        }
+    //removing attribute
+    function removefun() {
+        // alert('hii');
+        $('#remove').closest('.row').remove();
+    }
+    //removing Tags
+    function removetags() {
+        $('#remove').closest('#tags').remove();
+    }
 
-    
+
     // CK editor code 
     CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
         toolbar: {
@@ -288,7 +316,7 @@
         },
 
         placeholder: 'product description',
-      
+
         fontFamily: {
             options: [
                 'default',
@@ -377,7 +405,7 @@
             // from a local file system (file://) - load this site via HTTP server if you enable MathType
             'MathType'
         ]
-        
+
     });
 </script>
 @endsection
