@@ -115,8 +115,8 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group attr_size_color">
+                                    <div class="col-md-2 attr_size_color">
+                                        <div class="form-group">
                                             <label for="product_color">Color</label>
                                             <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;">
                                         </div>
@@ -191,16 +191,17 @@
         // Denotes total number of rows
         // var rowIdx = 1;
         /**Onchange attribute color sizze */
-        $(document).on('change','.attribute_name',function() {
+        $(document).on('change','.attribute_name',function(e) {
             var attr_val = $(this).val();
             // alert(attr_color);
-            alert(attr_val);
+            // alert(attr_val);
+            var type_id=$(this).closest('.row');
+            // alert(type_id);
             if (attr_val == "size") {
-                $(".attr_size_color").html('<label for="attribute_size">Select Size</label><select class="form-select form-select-md" name="attribute_size[]" aria-label=".form-select-lg example" id="attribute_size"> <option selected>Select attribute</option> <option value="small">Small</option> <option value="medium">Medium</option> </select>');
+                type_id.children(".attr_size_color").html('<div class="form-group"><label for="attribute_size">Select Size</label><select class="form-select form-select-md" name="attribute_size[]" aria-label=".form-select-lg example" id="attribute_size"> <option selected>Select attribute</option> <option value="small">Small</option> <option value="medium">Medium</option> </select></div>');
             } else if (attr_val == "color") {
-                $(".attr_size_color").html('<label for="product_color">Color</label> <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;">');
+                type_id.children(".attr_size_color").html('<div class="form-group"><label for="product_color">Color</label> <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;"></div>');
             }
-
 
         });
 
@@ -211,16 +212,15 @@
         //select 2 for Rpoduct status
         $('.selectProductStatus').select2();
 
-
         // jQuery button click event to add a row attribute
         $('#addattri').on('click', function() {
 
             // Adding a row inside the tbody.
-            $(`<div class="row mt-3" id="attribute"> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Attributes</label> <select class="form-select form-select-md mb-3 attribute_name" name="attribute_name[]" aria-label=".form-select-lg example" > <option value="color" selected>Color</option> <option value="size">Size</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group attr_size_color"> <label for="product_color">Color</label> <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_price">Price</label> <input id="product_price" type="text" name="product_price[]" placeholder="Product Price" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_mrp">MRP</label> <input id="product_mrp" type="text" name="product_mrp[]" placeholder="Product MRP" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_qty">QTY</label> <input id="product_qty" type="text" name="product_qty[]" placeholder="Product QTY" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_disc_type">Discount Type</label> <select class="form-select form-select-md mb-3" name="product_disc_type[]" aria-label=".form-select-lg example" id="product_disc_type"> <option value="percentage" selected>Percentage</option> <option value="flat">Flat</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_disc_val">Discount Value</label> <input id="product_disc_val" type="text" name="product_disc_val[]" placeholder="Discount Value" class="form-control"> </div> </div><div class="col-md-2 pt-3"> <div class="form-group mt-3"> <input type="button" value="❌" class="btn btn-danger" onclick="removefun()" id="remove"> </div> </div> </div>`).insertAfter("#attribute");
+            $(`<div class="row mt-3" id="attribute"> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Attributes</label> <select class="form-select form-select-md mb-3 attribute_name" name="attribute_name[]" aria-label=".form-select-lg example" > <option value="color" selected>Color</option> <option value="size">Size</option> </select> </div> </div> <div class="col-md-2 attr_size_color"> <div class="form-group"> <label for="product_color">Color</label> <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_price">Price</label> <input id="product_price" type="text" name="product_price[]" placeholder="Product Price" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_mrp">MRP</label> <input id="product_mrp" type="text" name="product_mrp[]" placeholder="Product MRP" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_qty">QTY</label> <input id="product_qty" type="text" name="product_qty[]" placeholder="Product QTY" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_disc_type">Discount Type</label> <select class="form-select form-select-md mb-3" name="product_disc_type[]" aria-label=".form-select-lg example" id="product_disc_type"> <option value="percentage" selected>Percentage</option> <option value="flat">Flat</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_disc_val">Discount Value</label> <input id="product_disc_val" type="text" name="product_disc_val[]" placeholder="Discount Value" class="form-control"> </div> </div><div class="col-md-2 pt-3"> <div class="form-group mt-3"> <input type="button" value="❌" class="btn btn-danger" onclick="removefun()" id="remove"> </div> </div> </div>`).insertAfter("#attribute");
             // rowIdx++;
         });
 
-        // jQuery button click event to add a row attribute
+        // jQuery button click event to add a row Tag
         $('#add_tags').on('click', function() {
             // Adding a row inside the tbody.
             $(`<div class="row col-md-12 mt-2" id="tags"> <div class="form-group col-md-3"> <label for="tag_name">tag Name</label> <input id="tag_name" type="text" name="tag_name_[]" placeholder="Product Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3"> <label for="tag_color">Tag color</label> <input id="tag_color" type="color" name="tag_color[]" placeholder="Product Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3"> <label for="text_color">Text color</label> <input id="text_color" type="color" name="text_color[]" placeholder="Text Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3 pt-4 mt-2"><input type="button" value="❌" class="btn btn-danger" onclick="removetags()" id="remove"> </div> </div>`).insertAfter("#tags");
