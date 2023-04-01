@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('category_id');
             $table->string('product_name');
+            $table->string('pro_status');
             $table->string('tag_id');
             $table->string('product_image');
             $table->text('gallery_image');

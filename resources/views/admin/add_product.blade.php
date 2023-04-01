@@ -77,7 +77,7 @@
                                 <div class="row mt-3">
                                     <div class="col-md-6 ">
                                         <label for="product_status">Product Status</label>
-                                        <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example">
+                                        <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="pro_status">
                                             <option selected>Select Product Status</option>
                                             <option value="active">Active</option>
                                             <option value="inactive">Inacctive</option>
@@ -87,11 +87,11 @@
                                         <div class="row col-md-12" id="tags">
                                             <div class="form-group col-md-3">
                                                 <label for="tag_name">tag Name</label>
-                                                <input id="tag_name" type="text" name="tag_name_[]" placeholder="Product Color" class="form-control" style="height:50px;">
+                                                <input id="tag_name" type="text" name="tag_name[]" placeholder="Tag Color" class="form-control" style="height:50px;">
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="tag_color">Tag color</label>
-                                                <input id="tag_color" type="color" name="tag_color[]" placeholder="Product Color" class="form-control" style="height:50px;">
+                                                <input id="tag_color" type="color" name="tag_color[]" placeholder="Tag Color" class="form-control" style="height:50px;">
                                             </div>
                                             <div class="form-group col-md-3">
                                                 <label for="text_color">Text color</label>
@@ -223,7 +223,7 @@
         // jQuery button click event to add a row Tag
         $('#add_tags').on('click', function() {
             // Adding a row inside the tbody.
-            $(`<div class="row col-md-12 mt-2" id="tags"> <div class="form-group col-md-3"> <label for="tag_name">tag Name</label> <input id="tag_name" type="text" name="tag_name_[]" placeholder="Product Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3"> <label for="tag_color">Tag color</label> <input id="tag_color" type="color" name="tag_color[]" placeholder="Product Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3"> <label for="text_color">Text color</label> <input id="text_color" type="color" name="text_color[]" placeholder="Text Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3 pt-4 mt-2"><input type="button" value="❌" class="btn btn-danger" onclick="removetags()" id="remove"> </div> </div>`).insertAfter("#tags");
+            $(`<div class="row col-md-12 mt-2" id="tags"> <div class="form-group col-md-3"> <label for="tag_name">tag Name</label> <input id="tag_name" type="text" name="tag_name[]" placeholder="Tag Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3"> <label for="tag_color">Tag color</label> <input id="tag_color" type="color" name="tag_color[]" placeholder="Tag Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3"> <label for="text_color">Text color</label> <input id="text_color" type="color" name="text_color[]" placeholder="Text Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3 pt-4 mt-2"><input type="button" value="❌" class="btn btn-danger" onclick="removetags()" id="remove"> </div> </div>`).insertAfter("#tags");
 
         });
 

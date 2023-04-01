@@ -4,6 +4,8 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductTag;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -37,7 +39,37 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request);
+        $request->validate([
+            'category_id'=>'nullable',
+            'product_name'=>'required',
+            'pro_status'=>'required',
+            'tag_name' => 'nullable',
+            'tag_color' => 'nullable',
+            'text_color' => 'nullable',
+            'attribute_name' => 'nullable',
+            'product_color' => 'nullable',
+            'product_price' => 'required',
+            'product_mrp' => 'required',
+            'product_qty' => 'required',
+            'product_disc_type' => 'nullable',
+            'product_disc_val' => 'nullable',
+            'product_desc' => 'nullable',
+            'product_image.*' => 'mimes:jpeg,png,jpg,gif,svg',
+            'gallery_image.*' => 'mimes:jpeg,png,jpg,gif,svg',
+        ]);
+        
+        $inserted_tagid   =   ProductTag::insertGetId([
+            'tag_name' => json_encode($request->tag_name),
+            'tag_color' => json_encode($request->tag_color),
+            'text_color' => json_encode($request->text_color),
+        ]);
+        dd($inserted_tagid);
+        // dd($request->all());
+        if($request->hasFile('product_image') OR $request->hasFile('gallery_image')){
+
+        }
+          
     }
 
     /**
