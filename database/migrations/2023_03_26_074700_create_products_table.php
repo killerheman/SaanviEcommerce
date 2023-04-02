@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('pro_status');
             $table->string('tag_id');
             $table->string('product_image');
-            $table->text('gallery_image');
+            $table->text('gallery_image')->nullable();
             $table->text('product_desc');
             $table->boolean('status')->default(1);
             $table->timestamps();

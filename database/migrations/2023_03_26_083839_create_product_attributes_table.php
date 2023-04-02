@@ -16,12 +16,13 @@ return new class extends Migration
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('pro_id');
-            $table->bigInteger('attr_type_id');
-            $table->string('attr_type_val');
-            $table->string('mrp');
+            $table->string('attr_name');
+            $table->string('attr_tag');
+            $table->string('attr_price');
+            $table->string('attr_mrp');
+            $table->string('pro_qty');
             $table->string('discount_type');
             $table->string('discount_val');
-            $table->string('pro_qty');
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

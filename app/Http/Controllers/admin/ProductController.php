@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductTag;
+use App\Models\AttributeSize;
+use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -18,7 +20,9 @@ class ProductController extends Controller
     public function index()
     {
         $cate_res   =   Category::get();
-        return view('admin.add_product',compact('cate_res'));
+        $tags       = ProductTag::get();
+        $attr_size  = AttributeSize::get();
+        return view('admin.add_product',compact('cate_res','tags','attr_size'));
     }
 
     /**
@@ -39,36 +43,65 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        $request->validate([
-            'category_id'=>'nullable',
-            'product_name'=>'required',
-            'pro_status'=>'required',
-            'tag_name' => 'nullable',
-            'tag_color' => 'nullable',
-            'text_color' => 'nullable',
-            'attribute_name' => 'nullable',
-            'product_color' => 'nullable',
-            'product_price' => 'required',
-            'product_mrp' => 'required',
-            'product_qty' => 'required',
-            'product_disc_type' => 'nullable',
-            'product_disc_val' => 'nullable',
-            'product_desc' => 'nullable',
-            'product_image.*' => 'mimes:jpeg,png,jpg,gif,svg',
-            'gallery_image.*' => 'mimes:jpeg,png,jpg,gif,svg',
-        ]);
-        
-        $inserted_tagid   =   ProductTag::insertGetId([
-            'tag_name' => json_encode($request->tag_name),
-            'tag_color' => json_encode($request->tag_color),
-            'text_color' => json_encode($request->text_color),
-        ]);
-        dd($inserted_tagid);
         // dd($request->all());
-        if($request->hasFile('product_image') OR $request->hasFile('gallery_image')){
+        $request->validate([
+            'category_id'       =>'required',
+            'product_name'      =>'required',
+            'pro_status'        =>'required',
+            'attribute_name'    => 'required',
+            'attr_tag'          => 'required',
+            'product_price'     => 'required',
+            'product_mrp'       => 'required',
+            'product_qty'       => 'required',
+            'product_image.*'   => 'mimes:jpeg,png,jpg,gif,svg|required',
+            'gallery_image.*'   => 'mimes:jpeg,png,jpg,gif,svg',
+        ]);
 
-        }
+        // dd($request->all());
+
+            if($request->hasFile('product_image')){
+                $product_img        =   'productimg-'.rand(0,1).time().'.'.$request->product_image->extension();
+                $destinationPath    = public_path().'/admin/pro_images' ;
+                $request->product_image->move($destinationPath,$product_img);
+            }
+            if($request->hasFile('gallery_image')){
+                $product_gal_img        =   array();
+                foreach($request->gallery_image as $gal_img){
+                    $img_name           =   'productgalimg-'.rand(0,1).time().'.'.$gal_img->extension();
+                    $product_gal_img[]  =  $img_name; 
+                    $destinationPath    = public_path().'/admin/pro_gal_img' ;
+                    $gal_img->move($destinationPath,$img_name);
+                }
+            }
+            $pro_data  =   Product::create([
+                'category_id'=>$request->category_id,
+                'product_name'=>$request->product_name,
+                'pro_status'=>$request->pro_status,
+                'tag_id'=>json_encode($request->tag_ids),
+                'product_image'=>$product_img,
+                'gallery_image' => isset($product_gal_img) ? json_encode($product_gal_img) : Null,
+                'product_desc'=>$request->product_desc,
+                'status'=>$request->pro_status,
+            ]);
+            // dd($pro_data);
+            if($pro_data->id){
+                $save_res   =   ProductAttribute::create([
+                    'pro_id'=>$pro_data->id,
+                    'attr_name'=>json_encode($request->attribute_name),
+                    'attr_tag'=>json_encode($request->attr_tag),
+                    'attr_price'=>json_encode($request->product_price),
+                    'attr_mrp'=>json_encode($request->product_mrp),
+                    'pro_qty'=>json_encode($request->product_qty),
+                    'discount_type'=>json_encode($request->product_disc_type),
+                    'discount_val'=>json_encode($request->product_desc),
+                ]);
+            }
+            if($save_res){
+                return redirect()->back()->with('toast_success', 'Product Successfully Added!');
+            }else{
+                return redirect()->back()->with('toast_error', 'Product not saved');
+            }
+
           
     }
 

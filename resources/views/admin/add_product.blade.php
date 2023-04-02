@@ -40,10 +40,10 @@
                                     <div class="col-md-6">
                                         <label for="product_name">Product Category</label>
                                         <div class="form-group">
-                                            <select id="selectto" class="form-select" data-placeholder="Select a Category" aria-label="Default select example" name="category_id">
+                                            <select class="js-example-basic-multiple-limit form-select" name="category_id">
                                                 @isset($cate_res)
                                                 @foreach($cate_res as $category)
-                                                <?php $dash = ''; ?>
+                                                @php $dash = ''; @endphp
                                                 <option value="{{$category->id}}" {{isset($category_data->id)?($category_data->id==$category->id?"selected":''):''}}>{{$category->category_name}}</option>
                                                 @if(count($category->subcategory))
                                                 @include('admin/subcategoryList_option',['subcategories' => $category->subcategory])
@@ -78,29 +78,19 @@
                                     <div class="col-md-6 ">
                                         <label for="product_status">Product Status</label>
                                         <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example" name="pro_status">
-                                            <option selected>Select Product Status</option>
-                                            <option value="active">Active</option>
-                                            <option value="inactive">Inacctive</option>
+                                            <option selected disabled>Select Product Status</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">Inacctive</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="row col-md-12" id="tags">
-                                            <div class="form-group col-md-3">
-                                                <label for="tag_name">tag Name</label>
-                                                <input id="tag_name" type="text" name="tag_name[]" placeholder="Tag Color" class="form-control" style="height:50px;">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label for="tag_color">Tag color</label>
-                                                <input id="tag_color" type="color" name="tag_color[]" placeholder="Tag Color" class="form-control" style="height:50px;">
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label for="text_color">Text color</label>
-                                                <input id="text_color" type="color" name="text_color[]" placeholder="Text Color" class="form-control" style="height:50px;">
-                                            </div>
-                                            <div class="form-group col-md-3 pt-4 mt-2">
-                                                <input type="button" value="+" class="btn btn-primary" id="add_tags">
-                                            </div>
-
+                                            <label for="tag_ids">tag Name</label>
+                                            <select class="form-select js-example-basic-multiple-limit" data-placeholder="Select Tags" aria-label="Default select example" multiple name="tag_ids[]">
+                                                @foreach($tags as $td)
+                                                <option value="{{$td->id ?? ''}}">{{$td->tag_name ??'' }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
 
                                     </div>
@@ -117,8 +107,8 @@
                                     </div>
                                     <div class="col-md-2 attr_size_color">
                                         <div class="form-group">
-                                            <label for="product_color">Color</label>
-                                            <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;">
+                                            <label for="attr_tag">Color</label>
+                                            <input id="attr_tag" type="color" name="attr_tag[]" placeholder="Product color" class="form-control" style="height:50px;">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -198,33 +188,23 @@
             var type_id=$(this).closest('.row');
             // alert(type_id);
             if (attr_val == "size") {
-                type_id.children(".attr_size_color").html('<div class="form-group"><label for="attribute_size">Select Size</label><select class="form-select form-select-md" name="attribute_size[]" aria-label=".form-select-lg example" id="attribute_size"> <option selected>Select attribute</option> <option value="small">Small</option> <option value="medium">Medium</option> </select></div>');
+                type_id.children(".attr_size_color").html('<div class="form-group"><label for="attribute_size">Select Size</label><select class="form-select form-select-md" name="attr_tag[]" aria-label=".form-select-lg example" id="attribute_size"> <option selected disabled>Select attribute</option>@foreach($attr_size as $attr_size){<option value="{{$attr_size->id ?? ""}}">{{$attr_size->size ?? ""}}</option>@endforeach </select></div>');
             } else if (attr_val == "color") {
-                type_id.children(".attr_size_color").html('<div class="form-group"><label for="product_color">Color</label> <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;"></div>');
+                type_id.children(".attr_size_color").html('<div class="form-group"><label for="product_color">Color</label> <input id="product_color" type="color" name="attr_tag[]" placeholder="Product color" class="form-control" style="height:50px;"></div>');
             }
 
         });
-
-        $('#selectto').select2({
-            allowClear: true,
-        });
-
-        //select 2 for Rpoduct status
-        $('.selectProductStatus').select2();
 
         // jQuery button click event to add a row attribute
         $('#addattri').on('click', function() {
 
             // Adding a row inside the tbody.
-            $(`<div class="row mt-3" id="attribute"> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Attributes</label> <select class="form-select form-select-md mb-3 attribute_name" name="attribute_name[]" aria-label=".form-select-lg example" > <option value="color" selected>Color</option> <option value="size">Size</option> </select> </div> </div> <div class="col-md-2 attr_size_color"> <div class="form-group"> <label for="product_color">Color</label> <input id="product_color" type="color" name="product_color[]" placeholder="Product color" class="form-control" style="height:50px;"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_price">Price</label> <input id="product_price" type="text" name="product_price[]" placeholder="Product Price" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_mrp">MRP</label> <input id="product_mrp" type="text" name="product_mrp[]" placeholder="Product MRP" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_qty">QTY</label> <input id="product_qty" type="text" name="product_qty[]" placeholder="Product QTY" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_disc_type">Discount Type</label> <select class="form-select form-select-md mb-3" name="product_disc_type[]" aria-label=".form-select-lg example" id="product_disc_type"> <option value="percentage" selected>Percentage</option> <option value="flat">Flat</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_disc_val">Discount Value</label> <input id="product_disc_val" type="text" name="product_disc_val[]" placeholder="Discount Value" class="form-control"> </div> </div><div class="col-md-2 pt-3"> <div class="form-group mt-3"> <input type="button" value="❌" class="btn btn-danger" onclick="removefun()" id="remove"> </div> </div> </div>`).insertAfter("#attribute");
+            $(`<div class="row mt-3" id="attribute"> <div class="col-md-2"> <div class="form-group"> <label for="product_attributes">Attributes</label> <select class="form-select form-select-md mb-3 attribute_name" name="attribute_name[]" aria-label=".form-select-lg example" > <option value="color" selected>Color</option> <option value="size">Size</option> </select> </div> </div> <div class="col-md-2 attr_size_color"> <div class="form-group"> <label for="product_color">Color</label> <input id="product_color" type="color" name="attr_tag[]" placeholder="Product color" class="form-control" style="height:50px;"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_price">Price</label> <input id="product_price" type="text" name="product_price[]" placeholder="Product Price" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_mrp">MRP</label> <input id="product_mrp" type="text" name="product_mrp[]" placeholder="Product MRP" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_qty">QTY</label> <input id="product_qty" type="text" name="product_qty[]" placeholder="Product QTY" class="form-control"> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_disc_type">Discount Type</label> <select class="form-select form-select-md mb-3" name="product_disc_type[]" aria-label=".form-select-lg example" id="product_disc_type"> <option value="percentage" selected>Percentage</option> <option value="flat">Flat</option> </select> </div> </div> <div class="col-md-2"> <div class="form-group"> <label for="product_disc_val">Discount Value</label> <input id="product_disc_val" type="text" name="product_disc_val[]" placeholder="Discount Value" class="form-control"> </div> </div><div class="col-md-2 pt-3"> <div class="form-group mt-3"> <input type="button" value="❌" class="btn btn-danger" onclick="removefun()" id="remove"> </div> </div> </div>`).insertAfter("#attribute");
             // rowIdx++;
         });
 
-        // jQuery button click event to add a row Tag
-        $('#add_tags').on('click', function() {
-            // Adding a row inside the tbody.
-            $(`<div class="row col-md-12 mt-2" id="tags"> <div class="form-group col-md-3"> <label for="tag_name">tag Name</label> <input id="tag_name" type="text" name="tag_name[]" placeholder="Tag Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3"> <label for="tag_color">Tag color</label> <input id="tag_color" type="color" name="tag_color[]" placeholder="Tag Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3"> <label for="text_color">Text color</label> <input id="text_color" type="color" name="text_color[]" placeholder="Text Color" class="form-control" style="height:50px;"> </div> <div class="form-group col-md-3 pt-4 mt-2"><input type="button" value="❌" class="btn btn-danger" onclick="removetags()" id="remove"> </div> </div>`).insertAfter("#tags");
-
+        $(".js-example-basic-multiple-limit").select2({
+            placeholder:'selecet tags',
         });
 
     });
