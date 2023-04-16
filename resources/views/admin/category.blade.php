@@ -118,9 +118,8 @@
                                     <td>
                                         <div class="d-flex">
                                             <div class="usr-img-frame me-2 rounded-circle">
-                                                <img alt="avatar" class="img-fluid rounded-circle" src="{{ asset(public_path().'/admin/categoryfile/'.$item->category_img ) }}">
+                                                <img alt="avatar" class="img-fluid rounded-circle" src="{{ asset('admin/categoryfile/'.$item->category_img ) }}">
                                             </div>
-
                                         </div>
                                     </td>
 
