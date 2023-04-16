@@ -53,15 +53,15 @@ class CategoryController extends Controller
 
         if($request->hasFile('category_img')){
             $name='catimg-'.rand(0,9).time().'.'.$request->category_img->extension();
-            $request->category_img->storeAs('categoryfile',$name,'public');
-            $path='categoryfile/'.$name;
+            $destinationPath    = public_path().'/admin/categoryfile' ;
+            $request->category_img->move($destinationPath,$name);
         }
         $save_res   =   Category::create([
         'category_name'=>$request->category_name,
         'category_slug'=>$request->category_slug,
         'category_desc'=>$request->category_desc,
         'parent_cat_id'=>$request->parent_cat_id??null,
-        'category_img'=>$path??'',
+        'category_img'=>$name??'',
         ]);
 
         if($save_res){

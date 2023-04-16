@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('tag_id');
             $table->string('product_image');
             $table->text('gallery_image')->nullable();
-            $table->text('product_desc');
+            $table->text('product_desc')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
         });
