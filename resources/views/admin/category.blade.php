@@ -50,7 +50,7 @@
                                         @foreach($categories as $category)
                                         <?php $dash = ''; ?>
                                         <option value="{{$category->id}}" {{isset($category_data->id)?($category_data->id==$category->id?"selected":''):''}}>{{$category->category_name}}</option>
-                                        @if(count($category->subcategory))
+                                        @if(count($category->subcategory)>=1)
                                         @include('admin/subcategoryList_option',['subcategories' => $category->subcategory])
                                         @endif
                                         @endforeach
@@ -60,6 +60,10 @@
                                 <div class="col-md-6">
                                     <label for="category_img" class="col-form-label">Category Image</label>
                                     <input type="file" name='category_img' class="form-control" id="category_img">
+                                    @isset($category_data->category_img)
+                                        <input type="hidden" name='old_cat_img' value='{{$category_data->category_img}}' class="form-control">
+                                        <img alt="catimg" class="img-fluid rounded-circle" src="{{ url('admin/categoryfile/'.$category_data->category_img ) }}" height='50px' width='50px'>
+                                    @endisset
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -118,8 +122,9 @@
                                     <td>
                                         <div class="d-flex">
                                             <div class="usr-img-frame me-2 rounded-circle">
-                                                <img alt="avatar" class="img-fluid rounded-circle" src="{{ asset('admin/categoryfile/'.$item->category_img ) }}">
+                                                <img alt="avatar" class="img-fluid rounded-circle" src="{{ url('admin/categoryfile/'.$item->category_img ) }}">
                                             </div>
+
                                         </div>
                                     </td>
 
@@ -138,19 +143,19 @@
                                     </td>
                                 </tr>
                                 <?php $dash = ''; ?>
-                                @if(count($item->subcategory))
+                                @if(count($item->subcategory)>=1)
                                 @include('admin/subCategoryList',['subcategories' => $item->subcategory])
                                 @endif
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
+                                    <th>Category Image</th>
+                                    <th>Category</th>
+                                    <th>Parent Category</th>
+                                    <th>Category Slug</th>
+                                    <th>Category Description</th>
+                                    <th style="text-align:center;">Action</th>
                                 </tr>
                             </tfoot>
                         </table>

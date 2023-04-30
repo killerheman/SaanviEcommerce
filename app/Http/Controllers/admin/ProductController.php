@@ -19,9 +19,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $cate_res   =   Category::get();
+        // $cate_res   =   Category::get();
+        $cate_res = Category::where('parent_cat_id', null)->orderby('category_name', 'asc')->get();
         $tags       = ProductTag::get();
-        $attr_size  = AttributeSize::get();
+        $attr_size  = AttributeSize::get(); 
         return view('admin.add_product',compact('cate_res','tags','attr_size'));
     }
 

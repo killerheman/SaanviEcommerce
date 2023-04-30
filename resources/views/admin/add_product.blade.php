@@ -45,7 +45,7 @@
                                                 @foreach($cate_res as $category)
                                                 @php $dash = ''; @endphp
                                                 <option value="{{$category->id}}" {{isset($category_data->id)?($category_data->id==$category->id?"selected":''):''}}>{{$category->category_name}}</option>
-                                                @if(count($category->subcategory))
+                                                @if(count($category->subcategory)>=1)
                                                 @include('admin/subcategoryList_option',['subcategories' => $category->subcategory])
                                                 @endif
                                                 @endforeach
@@ -181,11 +181,11 @@
         // Denotes total number of rows
         // var rowIdx = 1;
         /**Onchange attribute color sizze */
-        $(document).on('change','.attribute_name',function(e) {
+        $(document).on('change', '.attribute_name', function(e) {
             var attr_val = $(this).val();
             // alert(attr_color);
             // alert(attr_val);
-            var type_id=$(this).closest('.row');
+            var type_id = $(this).closest('.row');
             // alert(type_id);
             if (attr_val == "size") {
                 type_id.children(".attr_size_color").html('<div class="form-group"><label for="attribute_size">Select Size</label><select class="form-select form-select-md" name="attr_tag[]" aria-label=".form-select-lg example" id="attribute_size"> <option selected disabled>Select attribute</option>@foreach($attr_size as $attr_size){<option value="{{$attr_size->id ?? ""}}">{{$attr_size->size ?? ""}}</option>@endforeach </select></div>');
@@ -204,7 +204,7 @@
         });
 
         $(".js-example-basic-multiple-limit").select2({
-            placeholder:'selecet tags',
+            placeholder: 'selecet tags',
         });
 
     });

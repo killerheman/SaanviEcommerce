@@ -4,7 +4,7 @@
             <td>
                 <div class="d-flex">                                                        
                     <div class="usr-img-frame me-2 rounded-circle">
-                        <img alt="avatar" class="img-fluid rounded-circle" src="{{ storage_path('app/public/'.$item->category_img ) }}">
+                        <img alt="avatar" class="img-fluid rounded-circle" src="{{ url('admin/categoryfile/'.$subcategory->category_img ) }}">
                     </div>
                     {{-- <p class="align-self-center mb-0 admin-name"> Tiger </p> --}}
                 </div>

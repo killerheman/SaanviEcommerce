@@ -110,7 +110,38 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($id);
+        $request->validate([
+            'category_name'=>'required',
+            'category_slug'=>'required',
+            'category_desc'=>'required',
+            'parent_cat_id' => 'nullable|numeric',
+            'category_img.*' => 'mimes:jpeg,png,jpg,gif,svg',
+        ]);
+        dd($request->parent_cat_id);
+        if($request->hasFile('category_img')){
+            $name   =   'catimg-'.rand(0,9).time().'.'.$request->category_img->extension();
+            $destinationPath    = public_path().'/admin/categoryfile' ;
+            $request->category_img->move($destinationPath,$name);
+        }elseif($request->hasFile('old_cat_img')){
+            $name   =   $request->old_cat_img;
+        }
+        $cat_id_data = Category::find($id);
+        $save_res   =   $cat_id_data->update([
+        'category_name'=>$request->category_name,
+        'category_slug'=>$request->category_slug,
+        'category_desc'=>$request->category_desc,
+        'parent_cat_id'=>$request->parent_cat_id??null,
+        'category_img'=>$name??'',
+        ]);
+
+        if($save_res){
+            if($request->hasFile('category_img')){
+                unlink($destinationPath.'/'.$request->old_cat_img);
+            }
+            return redirect()->back()->with('toast_success', 'Product Category Successfully Update!');
+        }else{
+            return redirect()->back()->with('toast_error', 'Product Category not update');
+        }
     }
 
     /**
