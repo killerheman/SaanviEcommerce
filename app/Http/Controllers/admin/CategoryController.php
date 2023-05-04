@@ -66,12 +66,6 @@ class CategoryController extends Controller
 
         if($save_res){
             return redirect()->back()->with('toast_success', 'Product Category Successfully Added!');
-            // return response()->json( 
-            //     [
-            //         'msg'=>'Product Category Successfully Added',
-            //         'status'=>1
-            //     ]
-            // );
         }else{
             return redirect()->back()->with('toast_error', 'Product Category not saved');
         }
@@ -117,25 +111,26 @@ class CategoryController extends Controller
             'parent_cat_id' => 'nullable|numeric',
             'category_img.*' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
-        dd($request->parent_cat_id);
+        // dd($request->parent_cat_id);
         if($request->hasFile('category_img')){
             $name   =   'catimg-'.rand(0,9).time().'.'.$request->category_img->extension();
             $destinationPath    = public_path().'/admin/categoryfile' ;
             $request->category_img->move($destinationPath,$name);
-        }elseif($request->hasFile('old_cat_img')){
+        }elseif(isset($request->old_cat_img)){
             $name   =   $request->old_cat_img;
         }
+        // dd($name);
         $cat_id_data = Category::find($id);
         $save_res   =   $cat_id_data->update([
         'category_name'=>$request->category_name,
         'category_slug'=>$request->category_slug,
         'category_desc'=>$request->category_desc,
-        'parent_cat_id'=>$request->parent_cat_id??null,
+        'parent_cat_id'=>isset($cat_id_data->parent_cat_id)?$request->parent_cat_id:Null,
         'category_img'=>$name??'',
         ]);
 
         if($save_res){
-            if($request->hasFile('category_img')){
+            if($request->hasFile('category_img') && isset($request->old_cat_img)){
                 unlink($destinationPath.'/'.$request->old_cat_img);
             }
             return redirect()->back()->with('toast_success', 'Product Category Successfully Update!');
